@@ -12,32 +12,59 @@ Version: 0.0.1
 Author URI: MiPrima
 */
 
-# list of offensive words
-$offensiveWordsList = [
-    "puta",
-    "puto",
-    "maricon",
-    "coño",
-    "hijo de puta"
-];
-$nonOffensiveWordsList = [
-    "no se dice eso",
-    "pene",
-    "homosexual",
-    "xoxo",
-    "guapo"
-];
+function inicioPlugin() {
+    createTable();
+    insertData();
+}
 
 /**
- * Whenever the word WordPress appears in the content
- * of a post or a page,
- * it will be replaced by WordPressDAM.
- * @param $text string
- * @return string
+ * Crea la tabla 'dam' en la base de datos
  */
-function renym_wordpress_typo_fix( $text ) {
-    global $offensiveWordsList, $nonOffensiveWordsList;
-    return str_replace( $offensiveWordsList, $nonOffensiveWordsList, $text );
+function createTable() {
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'dam';
+    $charset_collate = $wpdb->get_charset_collate();
+    $sql = "CREATE TABLE $table_name (
+        id mediumint(9) NOT NULL AUTO_INCREMENT,
+        word varchar(255) NOT NULL,
+        palabrota varchar(255) NOT NULL,
+        eufemismo varchar(255) NOT NULL,
+        PRIMARY KEY  (id)
+    ) $charset_collate;";
+    require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+    dbDelta($sql);
+}
+
+/**
+ * Inserta datos en la tabla 'dam'
+ */
+function insertData() {
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'dam';
+    $wpdb->insert(
+        $table_name,
+        array(
+            'word' => 'puta',
+            'palabrota' => 'no se dice eso',
+            'eufemismo' => 'no se dice eso'
+            // Agrega más filas según sea necesario
+        )
+    );
+}
+
+add_action('plugins_loaded', 'inicioPlugin');
+
+/**
+ * Filtra el contenido para reemplazar palabras ofensivas
+ */
+function renym_wordpress_typo_fix($text) {
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'dam';
+    $results = $wpdb->get_results("SELECT * FROM $table_name");
+    foreach ($results as $row) {
+        $text = str_replace($row->word, $row->eufemismo, $text);
+    }
+    return $text;
 }
 
 add_filter('the_content', 'renym_wordpress_typo_fix');

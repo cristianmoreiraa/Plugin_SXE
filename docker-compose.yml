@@ -1,0 +1,30 @@
+# Contenedor de Apache con PHP y WordPress
+version: '3.1'
+services:
+  db:
+    image: mysql:5.7
+    container_name: db
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql:/var/lib/mysql  # Update the volume path
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pass
+
+  wordpress:
+    image: wordpress:latest
+    container_name: wordpress
+    ports:
+      - "9090:80"
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: user
+      WORDPRESS_DB_PASSWORD: pass
+      WORDPRESS_DB_NAME: db
+    volumes:
+      - ./src:/var/www/html
+    depends_on:
+      - db
