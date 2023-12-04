@@ -42,3 +42,5 @@ cualquier instalación de WP.
 
     Por lo que se ve el profe quiere seguir trabajando en este proyecto así que a seguir. 
 
+# Tengo problema con esta tarea y no sé porqué no funciona como debería, lo iré actualizando a medida que vaya avanzando en el proyecto. Intentaré que me ayude algun compañero de clase.
+
