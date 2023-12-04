@@ -37,3 +37,8 @@ cualquier instalación de WP.
 
         Como curiosidad podemos ver que al tener cambiada la palabra 'puta' por la palabra 'no se dice eso', cuando abajo de todo ponemos 
         'hijo de puta'  nos cambiará la palabra 'puta' por 'no se dice eso' y quedaría 'hijo de no se dice eso'.
+
+## Pensaba que ya se había acabado, pero no, hay más:
+
+    Por lo que se ve el profe quiere seguir trabajando en este proyecto así que a seguir. 
+
